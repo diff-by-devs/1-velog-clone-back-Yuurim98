@@ -1,0 +1,30 @@
+name: "✨ Feature"
+description: "새로운 기능 추가"
+labels: ["feature"]
+body:
+  - type: textarea
+    attributes:
+      label: "📄 설명"
+      description: "추가하려는 기능에 대해 설명해 주세요."
+      placeholder: "예: 회원 가입 기능 구현"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "✅ 작업 내용"
+      description: "해야 할 작업을 체크박스 형태로 구체적으로 작성해 주세요."
+      placeholder: |
+        - [ ] API 설계
+        - [ ] DB 엔티티 생성
+        - [ ] 서비스 로직 구현
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "🔗 참고 자료"
+      description: "디자인 문서, API 명세 등 관련 자료가 있다면 링크 또는 내용을 남겨 주세요."
+      placeholder: "예: Figma 링크, Notion 문서 등"
+    validations:
+      required: false

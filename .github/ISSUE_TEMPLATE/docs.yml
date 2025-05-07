@@ -1,0 +1,22 @@
+name: "📚 Docs"
+description: "문서 추가 및 수정"
+labels: ["docs"]
+body:
+  - type: textarea
+    attributes:
+      label: 📝 문서 설명
+      description: 어떤 문서를 수정하거나 추가할 건지 설명해 주세요.
+      placeholder: 예) README 수정, API 문서 추가 등
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ✅ 작업할 내용
+      description: 수정하거나 추가할 문서 작업 목록을 체크박스로 작성해 주세요.
+      placeholder: 예) [ ] README 목차 정리, [ ] API 사용법 추가
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 🙋🏻 참고 자료
+      description: 참고할 문서나 링크가 있다면 작성해 주세요.
