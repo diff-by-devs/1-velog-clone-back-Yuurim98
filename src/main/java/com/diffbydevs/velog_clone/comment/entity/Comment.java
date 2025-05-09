@@ -1,8 +1,8 @@
 package com.diffbydevs.velog_clone.comment.entity;
 
 import com.diffbydevs.velog_clone.common.entity.BaseEntity;
-import com.diffbydevs.velog_clone.user.entity.User;
 import com.diffbydevs.velog_clone.post.entity.Post;
+import com.diffbydevs.velog_clone.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,9 +10,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "parent")
     private List<Comment> children = new ArrayList<>();
 
-    @Lob
-    @Column(nullable = false)
+    @NotNull
+    @Column(length = 500)
     private String content;
 }

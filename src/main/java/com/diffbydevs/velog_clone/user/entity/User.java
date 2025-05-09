@@ -6,8 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "USERS")
@@ -17,24 +17,26 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column(length = 20)
     private String name;
 
-    @Column(nullable = false)
+    @NotNull
     private String email;
 
-    @Column(nullable = false)
+    @NotNull
     private String password;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column(length = 20)
     private String userId;
 
-    @Column(nullable = false)
+    @NotNull
     private String blogName;
 
-    @Lob
+    @Column(length = 300)
     private String profileIntro;
 
-    @Lob
+    @Column(length = 300)
     private String blogIntro;
 }
