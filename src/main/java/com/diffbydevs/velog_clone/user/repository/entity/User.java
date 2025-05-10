@@ -1,4 +1,4 @@
-package com.diffbydevs.velog_clone.user.entity;
+package com.diffbydevs.velog_clone.user.repository.entity;
 
 import com.diffbydevs.velog_clone.common.entity.BaseEntity;
 import jakarta.persistence.Column;
@@ -8,7 +8,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 @Entity
 @Table(name = "USERS")
 public class User extends BaseEntity {
@@ -39,4 +45,16 @@ public class User extends BaseEntity {
 
     @Column(length = 300)
     private String blogIntro;
+
+    @Builder
+    public User(String name, String email, String password, String userId, String blogName,
+        String profileIntro, String blogIntro) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.userId = userId;
+        this.blogName = blogName;
+        this.profileIntro = profileIntro;
+        this.blogIntro = blogIntro;
+    }
 }
