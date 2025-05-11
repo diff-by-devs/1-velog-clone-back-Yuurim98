@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.diffbydevs.velog_clone.user.service.UserService;
+import java.util.Locale;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +102,33 @@ class UserControllerTest {
             .andDo(MockMvcResultHandlers.print());
     }
 
+    @DisplayName("회원가입 - 필드가 비어있는 경우 400")
+    @Test
+    void shouldReturn400_whenFieldIsBlank() throws Exception {
+        // given
+        String json = """
+        {
+          "userName": "",
+          "email": "test@email.com",
+          "password": "Password1!",
+          "passwordConfirm": "Password1!",
+          "userId": "test_",
+          "profileIntro": "안녕하세요"
+        }
+        """;
+
+        // when & then
+        mockMvc.perform(post("/api/auth/register")
+                .locale(Locale.KOREAN)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.status").value("error"))
+            .andExpect(jsonPath("$.code").value(400))
+            .andExpect(jsonPath("$.message").value("{userName} 공백일 수 없습니다"))
+            .andDo(MockMvcResultHandlers.print());
+    }
+
     @DisplayName("회원가입 성공")
     @Test
     void shouldReturn200_whenRegisterRequestIsValid() throws Exception {
@@ -120,7 +148,7 @@ class UserControllerTest {
         mockMvc.perform(post("/api/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andExpect(jsonPath("$.status").value("success"))
             .andExpect(jsonPath("$.code").value(200))
             .andExpect(jsonPath("$.message").value("회원가입 되었습니다."))
