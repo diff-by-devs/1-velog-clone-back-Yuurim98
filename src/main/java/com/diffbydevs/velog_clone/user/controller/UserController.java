@@ -5,6 +5,7 @@ import com.diffbydevs.velog_clone.user.controller.dto.RegisterReqDto;
 import com.diffbydevs.velog_clone.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,6 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<String>> register(@RequestBody @Valid RegisterReqDto registerReqDto) {
         userService.createUser(registerReqDto);
-        return ResponseEntity.ok(ApiResponse.success("회원가입 되었습니다."));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success("회원가입 되었습니다."));
     }
 }
