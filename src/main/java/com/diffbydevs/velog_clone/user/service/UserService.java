@@ -23,7 +23,7 @@ public class UserService {
 
         validatePasswordMatch(registerReqDto.getPassword(), registerReqDto.getPasswordConfirm());
 
-        User user = registerReqDto.toUser(passwordEncode(registerReqDto.getPassword()));
+        User user = registerReqDto.toUser(passwordEncoder.encode(registerReqDto.getPassword()));
         userRepository.save(user);
     }
 
@@ -39,7 +39,4 @@ public class UserService {
         }
     }
 
-    private String passwordEncode(String password) {
-        return passwordEncoder.encode(password);
-    }
 }
