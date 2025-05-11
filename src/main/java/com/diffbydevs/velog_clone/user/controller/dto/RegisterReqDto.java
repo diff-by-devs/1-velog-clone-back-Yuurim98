@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class RegisterReqDto {
 
     @NotBlank
+    @Size(max = 20)
     private final String userName;
 
     @NotBlank
