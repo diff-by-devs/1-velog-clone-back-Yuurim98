@@ -1,12 +1,13 @@
 package com.diffbydevs.velog_clone.common.response;
 
 import com.diffbydevs.velog_clone.common.exception.ErrorCode;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiResponse<T> {
 
     private final String status;
