@@ -1,7 +1,6 @@
 package com.diffbydevs.velog_clone.user.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -10,8 +9,8 @@ import static org.mockito.Mockito.when;
 import com.diffbydevs.velog_clone.common.exception.CustomException;
 import com.diffbydevs.velog_clone.common.exception.ErrorCode;
 import com.diffbydevs.velog_clone.user.controller.dto.RegisterReqDto;
-import com.diffbydevs.velog_clone.user.repository.entity.User;
 import com.diffbydevs.velog_clone.user.repository.UserRepository;
+import com.diffbydevs.velog_clone.user.repository.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,21 +40,25 @@ class UserServiceTest {
         when(userRepository.existsByUserId(anyString())).thenReturn(true);
 
         // when & then
-        CustomException exception = assertThrows(CustomException.class, () -> userService.createUser(reqDto));
-        assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.ACCOUNT_CONFLICT);
-        assertThat(exception.getMessage()).isEqualTo(ErrorCode.ACCOUNT_CONFLICT.getMessage());
+        assertThatThrownBy(() -> userService.createUser(reqDto))
+            .isInstanceOf(CustomException.class)
+            .hasMessage(ErrorCode.ACCOUNT_CONFLICT.getMessage())
+            .extracting("errorCode")
+            .isEqualTo(ErrorCode.ACCOUNT_CONFLICT);
     }
 
     @DisplayName("입력한 비밀번호가 일치하지 않은 경우 예외 발생")
     @Test
     void shouldThrowException_whenPasswordsDoNotMatch() {
         // given
-        RegisterReqDto reqDto = getRegisterReqDto("Password1!");
+        RegisterReqDto reqDto = getRegisterReqDto("Password1!", "Password2!");
 
         // when & then
-        CustomException exception = assertThrows(CustomException.class, () -> userService.createUser(reqDto));
-        assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.PASSWORD_MISMATCH);
-        assertThat(exception.getMessage()).isEqualTo(ErrorCode.PASSWORD_MISMATCH.getMessage());
+        assertThatThrownBy(() -> userService.createUser(reqDto))
+            .isInstanceOf(CustomException.class)
+            .hasMessage(ErrorCode.PASSWORD_CONFIRM_MISMATCH.getMessage())
+            .extracting("errorCode")
+            .isEqualTo(ErrorCode.PASSWORD_CONFIRM_MISMATCH);
     }
 
     @DisplayName("회원가입에 성공하면 save 메서드를 호출")
@@ -81,12 +84,12 @@ class UserServiceTest {
             .build();
     }
 
-    private RegisterReqDto getRegisterReqDto(String password) {
+    private RegisterReqDto getRegisterReqDto(String password, String passwordConfirm) {
         return RegisterReqDto.builder()
             .userName("홍길동")
             .email("test@gmail.com")
             .password(password)
-            .passwordConfirm("Password2!")
+            .passwordConfirm(passwordConfirm)
             .userId("test_")
             .build();
     }

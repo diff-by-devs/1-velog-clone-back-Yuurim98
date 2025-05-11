@@ -33,9 +33,9 @@ public class UserService {
         }
     }
 
-    private static void validatePasswordMatch(String password, String passwordConfirm) {
+    private void validatePasswordMatch(String password, String passwordConfirm) {
         if (!password.equals(passwordConfirm)) {
-            throw new CustomException(ErrorCode.PASSWORD_MISMATCH);
+            throw new CustomException(ErrorCode.PASSWORD_CONFIRM_MISMATCH);
         }
     }
 
