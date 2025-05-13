@@ -46,8 +46,20 @@ public class User extends BaseEntity {
     @Column(length = 300)
     private String blogIntro;
 
-    @Builder
-    public User(String name, String email, String password, String userId, String blogName,
+    public static User create(String name, String email, String password, String userId, String blogName,
+        String profileIntro) {
+        return User.builder()
+            .name(name)
+            .email(email)
+            .password(password)
+            .userId(userId)
+            .blogName(blogName)
+            .profileIntro(profileIntro)
+            .build();
+    }
+
+    @Builder(access = AccessLevel.PRIVATE)
+    private User(String name, String email, String password, String userId, String blogName,
         String profileIntro, String blogIntro) {
         this.name = name;
         this.email = email;
@@ -57,4 +69,5 @@ public class User extends BaseEntity {
         this.profileIntro = profileIntro;
         this.blogIntro = blogIntro;
     }
+
 }

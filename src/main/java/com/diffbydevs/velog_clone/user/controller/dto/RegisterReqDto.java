@@ -38,16 +38,8 @@ public class RegisterReqDto {
     @Size(max = 300)
     private final String profileIntro;
 
-
     public User toUser(String encodingPassword) {
-       return User.builder()
-           .name(userName)
-           .email(email)
-           .password(encodingPassword)
-           .userId(userId)
-           .blogName(userId)
-           .profileIntro(profileIntro)
-           .build();
+        return User.create(userName, email, encodingPassword, userId, userId, profileIntro);
     }
 
 }
