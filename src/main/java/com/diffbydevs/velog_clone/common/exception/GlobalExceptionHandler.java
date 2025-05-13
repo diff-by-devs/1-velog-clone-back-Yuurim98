@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final String ERROR_LOG_MESSAGE = "[ERROR] {} : {}";
+
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ApiResponse<Void>> handleCustomException(CustomException exception) {
+        log.error(ERROR_LOG_MESSAGE, exception.getClass().getSimpleName(), exception.getMessage());
         ErrorCode errorCode = exception.getErrorCode();
         return ResponseEntity
             .status(errorCode.getHttpStatus())
@@ -26,6 +29,9 @@ public class GlobalExceptionHandler {
 
         FieldError firstError = exception.getFieldErrors().get(0);
         String message = String.format("{%s} %s", firstError.getField(), firstError.getDefaultMessage());
+
+        log.error(ERROR_LOG_MESSAGE, exception.getClass().getName(), message);
+
 
         return ResponseEntity
             .status(ErrorCode.VALIDATION_FAILED.getHttpStatus())
