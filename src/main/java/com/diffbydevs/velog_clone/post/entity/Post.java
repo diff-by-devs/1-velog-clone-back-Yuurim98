@@ -2,7 +2,7 @@ package com.diffbydevs.velog_clone.post.entity;
 
 import com.diffbydevs.velog_clone.common.entity.BaseEntity;
 import com.diffbydevs.velog_clone.series.entity.Series;
-import com.diffbydevs.velog_clone.user.entity.User;
+import com.diffbydevs.velog_clone.user.repository.entity.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,9 +16,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.hibernate.annotations.ColumnDefault;
 

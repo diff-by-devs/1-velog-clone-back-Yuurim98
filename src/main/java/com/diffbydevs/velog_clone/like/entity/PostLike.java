@@ -1,7 +1,7 @@
 package com.diffbydevs.velog_clone.like.entity;
 
 import com.diffbydevs.velog_clone.common.entity.BaseEntity;
-import com.diffbydevs.velog_clone.user.entity.User;
+import com.diffbydevs.velog_clone.user.repository.entity.User;
 import com.diffbydevs.velog_clone.post.entity.Post;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
