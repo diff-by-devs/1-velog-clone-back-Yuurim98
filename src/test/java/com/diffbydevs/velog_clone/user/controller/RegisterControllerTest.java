@@ -4,7 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.diffbydevs.velog_clone.user.service.UserService;
+import com.diffbydevs.velog_clone.user.service.AuthService;
 import java.util.Locale;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,34 +15,34 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-@WebMvcTest(UserController.class)
-class UserControllerTest {
+@WebMvcTest(AuthController.class)
+class RegisterControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockitoBean
-    private UserService userService;
+    private AuthService userService;
 
     @DisplayName("회원가입 - 이메일 형식이 아닌 경우 400")
     @Test
     void shouldReturn400_whenEmailIsInvalid() throws Exception {
         // given
         String json = """
-        {
-          "userName": "홍길동",
-          "email": "email",
-          "password": "Password1!",
-          "passwordConfirm": "Password1!",
-          "userId": "test_",
-          "profileIntro": "안녕하세요"
-        }
-        """;
+            {
+              "userName": "홍길동",
+              "email": "email",
+              "password": "Password1!",
+              "passwordConfirm": "Password1!",
+              "userId": "test_",
+              "profileIntro": "안녕하세요"
+            }
+            """;
 
         // when & then
         mockMvc.perform(post("/api/auth/register")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(json))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.status").value("error"))
             .andExpect(jsonPath("$.code").value(400))
@@ -55,15 +55,15 @@ class UserControllerTest {
     void shouldReturn400_whenPasswordDoesNotMeetFormat() throws Exception {
         // given
         String json = """
-        {
-          "userName": "홍길동",
-          "email": "test@email.com",
-          "password": "password!",
-          "passwordConfirm": "password!",
-          "userId": "test_",
-          "profileIntro": "안녕하세요"
-        }
-        """;
+            {
+              "userName": "홍길동",
+              "email": "test@email.com",
+              "password": "password!",
+              "passwordConfirm": "password!",
+              "userId": "test_",
+              "profileIntro": "안녕하세요"
+            }
+            """;
 
         // when & then
         mockMvc.perform(post("/api/auth/register")
@@ -72,7 +72,8 @@ class UserControllerTest {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.status").value("error"))
             .andExpect(jsonPath("$.code").value(400))
-            .andExpect(jsonPath("$.message").value("{password} 영어, 숫자, 특수문자를 최소 1개 포함하는 8~20자만 입력 가능합니다."))
+            .andExpect(
+                jsonPath("$.message").value("{password} 영어, 숫자, 특수문자를 최소 1개 포함하는 8~20자만 입력 가능합니다."))
             .andDo(MockMvcResultHandlers.print());
     }
 
@@ -81,15 +82,15 @@ class UserControllerTest {
     void shouldReturn400_whenUserIdDoesNotMeetFormat() throws Exception {
         // given
         String json = """
-        {
-          "userName": "홍길동",
-          "email": "test@email.com",
-          "password": "Password1!",
-          "passwordConfirm": "Password1!",
-          "userId": "test_!!",
-          "profileIntro": "안녕하세요"
-        }
-        """;
+            {
+              "userName": "홍길동",
+              "email": "test@email.com",
+              "password": "Password1!",
+              "passwordConfirm": "Password1!",
+              "userId": "test_!!",
+              "profileIntro": "안녕하세요"
+            }
+            """;
 
         // when & then
         mockMvc.perform(post("/api/auth/register")
@@ -98,7 +99,8 @@ class UserControllerTest {
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.status").value("error"))
             .andExpect(jsonPath("$.code").value(400))
-            .andExpect(jsonPath("$.message").value("{userId} 영어 소문자, 숫자, 특수문자(- 와 _) 3~16자만 입력 가능합니다."))
+            .andExpect(
+                jsonPath("$.message").value("{userId} 영어 소문자, 숫자, 특수문자(- 와 _) 3~16자만 입력 가능합니다."))
             .andDo(MockMvcResultHandlers.print());
     }
 
@@ -107,15 +109,15 @@ class UserControllerTest {
     void shouldReturn400_whenFieldIsBlank() throws Exception {
         // given
         String json = """
-        {
-          "userName": "",
-          "email": "test@email.com",
-          "password": "Password1!",
-          "passwordConfirm": "Password1!",
-          "userId": "test_",
-          "profileIntro": "안녕하세요"
-        }
-        """;
+            {
+              "userName": "",
+              "email": "test@email.com",
+              "password": "Password1!",
+              "passwordConfirm": "Password1!",
+              "userId": "test_",
+              "profileIntro": "안녕하세요"
+            }
+            """;
 
         // when & then
         mockMvc.perform(post("/api/auth/register")
@@ -134,15 +136,15 @@ class UserControllerTest {
     void shouldReturn200_whenRegisterRequestIsValid() throws Exception {
         // given
         String json = """
-        {
-          "userName": "홍길동",
-          "email": "test@email.com",
-          "password": "Password1!",
-          "passwordConfirm": "Password1!",
-          "userId": "test_",
-          "profileIntro": "안녕하세요"
-        }
-        """;
+            {
+              "userName": "홍길동",
+              "email": "test@email.com",
+              "password": "Password1!",
+              "passwordConfirm": "Password1!",
+              "userId": "test_",
+              "profileIntro": "안녕하세요"
+            }
+            """;
 
         // when & then
         mockMvc.perform(post("/api/auth/register")
@@ -155,8 +157,6 @@ class UserControllerTest {
             .andDo(MockMvcResultHandlers.print());
 
     }
-
-
 
 
 }
