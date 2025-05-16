@@ -16,23 +16,23 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
-class AuthModelTest {
+class AccountModelTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
 
 
-    @DisplayName("User 엔티티로부터 AuthModel 생성")
+    @DisplayName("User 엔티티로부터 AccountModel 생성")
     @Test
     void shouldCreateAuthModelFromUser() {
         // given & when
         User user = getUser();
-        AuthModel authModel = getAuthModel(user);
+        AccountModel accountModel = getAuthModel(user);
 
         // then
-        assertThat(authModel.getEmail()).isEqualTo(user.getEmail());
-        assertThat(authModel.getPassword()).isEqualTo(user.getPassword());
-        assertThat(authModel.getUserId()).isEqualTo(user.getUserId());
+        assertThat(accountModel.getEmail()).isEqualTo(user.getEmail());
+        assertThat(accountModel.getPassword()).isEqualTo(user.getPassword());
+        assertThat(accountModel.getUserId()).isEqualTo(user.getUserId());
     }
 
     @DisplayName("비밀번호가 일치하면 예외 없이 통과")
@@ -40,12 +40,12 @@ class AuthModelTest {
     void shouldPass_whenPasswordMatches() {
         // given
         String rawPassword = "Password1!";
-        AuthModel authModel = getAuthModel(getUser());
+        AccountModel accountModel = getAuthModel(getUser());
 
-        when(passwordEncoder.matches(rawPassword, authModel.getPassword())).thenReturn(true);
+        when(passwordEncoder.matches(rawPassword, accountModel.getPassword())).thenReturn(true);
 
         // when & then
-        assertThatCode(() -> authModel.verifyPassword(passwordEncoder, rawPassword))
+        assertThatCode(() -> accountModel.verifyPassword(passwordEncoder, rawPassword))
             .doesNotThrowAnyException();
     }
 
@@ -54,21 +54,21 @@ class AuthModelTest {
     void shouldThrowException_whenPasswordDoesNotMatch() {
         // given
         String rawPassword = "wrongPassword!";
-        AuthModel authModel = getAuthModel(getUser());
+        AccountModel accountModel = getAuthModel(getUser());
 
-        when(passwordEncoder.matches(rawPassword, authModel.getPassword())).thenReturn(false);
+        when(passwordEncoder.matches(rawPassword, accountModel.getPassword())).thenReturn(false);
 
 
         // when & then
-        assertThatThrownBy(() -> authModel.verifyPassword(passwordEncoder, rawPassword))
+        assertThatThrownBy(() -> accountModel.verifyPassword(passwordEncoder, rawPassword))
             .isInstanceOf(CustomException.class)
             .hasMessage(ErrorCode.PASSWORD_MISMATCH.getMessage())
             .extracting("errorCode")
             .isEqualTo(ErrorCode.PASSWORD_MISMATCH);
     }
 
-    private static AuthModel getAuthModel(User user) {
-        return AuthModel.from(user);
+    private static AccountModel getAuthModel(User user) {
+        return AccountModel.from(user);
     }
 
     private static User getUser() {

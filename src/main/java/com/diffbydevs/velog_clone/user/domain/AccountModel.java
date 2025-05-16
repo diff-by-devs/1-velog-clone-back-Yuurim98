@@ -7,7 +7,7 @@ import lombok.Getter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
-public class AuthModel {
+public class AccountModel {
 
     private String email;
 
@@ -16,14 +16,14 @@ public class AuthModel {
     private String userId;
 
 
-    private AuthModel(String email, String password, String userId) {
+    private AccountModel(String email, String password, String userId) {
         this.email = email;
         this.password = password;
         this.userId = userId;
     }
 
-    public static AuthModel from(User user) {
-        return new AuthModel(user.getEmail(), user.getPassword(), user.getUserId());
+    public static AccountModel from(User user) {
+        return new AccountModel(user.getEmail(), user.getPassword(), user.getUserId());
     }
 
     public void verifyPassword(PasswordEncoder passwordEncoder, String rawPassword) {

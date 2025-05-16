@@ -4,7 +4,7 @@ import com.diffbydevs.velog_clone.common.exception.CustomException;
 import com.diffbydevs.velog_clone.common.exception.ErrorCode;
 import com.diffbydevs.velog_clone.user.controller.dto.LoginReqDto;
 import com.diffbydevs.velog_clone.user.controller.dto.RegisterReqDto;
-import com.diffbydevs.velog_clone.user.domain.AuthModel;
+import com.diffbydevs.velog_clone.user.domain.AccountModel;
 import com.diffbydevs.velog_clone.user.repository.UserRepository;
 import com.diffbydevs.velog_clone.user.repository.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -44,11 +44,11 @@ public class AuthService {
 
         User user = findUserByEmailOrThrow(loginReqDto);
 
-        AuthModel authModel = AuthModel.from(user);
+        AccountModel accountModel = AccountModel.from(user);
 
-        authModel.verifyPassword(passwordEncoder, loginReqDto.getPassword());
+        accountModel.verifyPassword(passwordEncoder, loginReqDto.getPassword());
 
-        return authModel.getUserId();
+        return accountModel.getUserId();
     }
 
     private User findUserByEmailOrThrow(LoginReqDto loginReqDto) {
