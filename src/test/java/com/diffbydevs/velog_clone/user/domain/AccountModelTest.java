@@ -24,10 +24,10 @@ class AccountModelTest {
 
     @DisplayName("User 엔티티로부터 AccountModel 생성")
     @Test
-    void shouldCreateAuthModelFromUser() {
+    void shouldCreateAccountModelFromUser() {
         // given & when
         User user = getUser();
-        AccountModel accountModel = getAuthModel(user);
+        AccountModel accountModel = getAccountModel(user);
 
         // then
         assertThat(accountModel.getEmail()).isEqualTo(user.getEmail());
@@ -40,7 +40,7 @@ class AccountModelTest {
     void shouldPass_whenPasswordMatches() {
         // given
         String rawPassword = "Password1!";
-        AccountModel accountModel = getAuthModel(getUser());
+        AccountModel accountModel = getAccountModel(getUser());
 
         when(passwordEncoder.matches(rawPassword, accountModel.getPassword())).thenReturn(true);
 
@@ -54,7 +54,7 @@ class AccountModelTest {
     void shouldThrowException_whenPasswordDoesNotMatch() {
         // given
         String rawPassword = "wrongPassword!";
-        AccountModel accountModel = getAuthModel(getUser());
+        AccountModel accountModel = getAccountModel(getUser());
 
         when(passwordEncoder.matches(rawPassword, accountModel.getPassword())).thenReturn(false);
 
@@ -67,7 +67,7 @@ class AccountModelTest {
             .isEqualTo(ErrorCode.PASSWORD_MISMATCH);
     }
 
-    private static AccountModel getAuthModel(User user) {
+    private static AccountModel getAccountModel(User user) {
         return AccountModel.from(user);
     }
 
